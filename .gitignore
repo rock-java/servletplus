@@ -4,6 +4,7 @@
 .mtj.tmp/
 
 .settings/
+target/
 
 # Package Files #
 *.jar
