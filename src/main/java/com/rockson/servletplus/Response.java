@@ -16,6 +16,8 @@ public class Response extends HttpServletResponseWrapper {
 	public void json(Object object ) throws IOException {
 		getWriter().write(JSON.toJSONString(object));
 	}
-
-
+	
+	public void send(String str) throws IOException {
+		getWriter().write(str);
+	}
 }
