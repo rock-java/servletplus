@@ -12,33 +12,47 @@ public abstract class SubRouter {
 	public SubRouter(Servlet servlet) {
 		this.servlet = servlet;
 	}
-	
-	public String getBasePath(){
+
+	public String getBasePath() {
 		WebServlet webServlet = this.servlet.getClass().getAnnotation(WebServlet.class);
-		if(webServlet.value().length<=0){
+		if (webServlet.value().length <= 0) {
 			return null;
 		}
 		String path = webServlet.value()[0];
-		if(!path.endsWith("/*")){
+		if (!path.endsWith("/*")) {
 			return null;
-		}else{
-			return path.substring(0 , path.length()-2);
+		} else {
+			return path.substring(0, path.length() - 2);
 		}
-		
+
 	}
-	public String getSubPath(HttpServletRequest req){
+
+	public String getSubPath(HttpServletRequest req) {
 		String base = getBasePath();
 		int contentPathLen = req.getContextPath().length();
-		if(null == base) {
+		if (null == base) {
 			return null;
-		}else{
-			return req.getRequestURI().substring(contentPathLen+base.length());
+		} else {
+			return req.getRequestURI().substring(contentPathLen + base.length());
 		}
 	}
-	
-	public abstract void get(String path , Handler handler);
+
+	public abstract void get(String path, Handler handler);
+
+	public abstract void post(String path, Handler handler);
+
+	public abstract void delete(String path, Handler handler);
+
+	public abstract void put(String path, Handler handler);
+
+	public abstract void head(String path, Handler handler);
+
+	public abstract void options(String path, Handler handler);
+
+	public abstract void trace(String path, Handler handler);
+
+	public abstract void verb(String method, String path, Handler handler);
 
 	public abstract boolean route(Request request, Response response) throws IOException, ServletException;
-	
-	
+
 }

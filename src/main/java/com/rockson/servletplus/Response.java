@@ -18,6 +18,9 @@ public class Response extends HttpServletResponseWrapper {
 	}
 	
 	public void send(String str) throws IOException {
+		if(null==str){
+			return;
+		}
 		getWriter().write(str);
 	}
 }
