@@ -40,12 +40,14 @@ public class ParamPath {
 	public Map<String, String> matchPathReg(String path) {
 		Matcher matcher = pathPattern.matcher(path);
 		Map<String, String> map = new HashMap<String, String>();
+		boolean matches = false;
 		while (matcher.find()) {
 			for (String name : pathNames) {
 				map.put(name, matcher.group(name));
 			}
+			matches = true;
 		}
-		if (map.isEmpty()) {
+		if (!matches) {
 			return null;
 		} else {
 			return map;
