@@ -23,8 +23,21 @@ import com.rockson.servletplus.Response;
 public class UserServlet extends Servlet {
 	public UserServlet() {
 		subRouter = new BasicSubRouter(this);
-		subRouter.get("/{id}", (Request req, Response res, Next next) -> {next.next();});
-		subRouter.get("/{id}", (Request req, Response res) -> {res.json(user);});
+		subRouter.use("^/candy.*$", (Request req, Response res, Next next) -> {
+			System.out.println("use candy - "+req.getRequestURI());
+			next.apply();
+		});
+		subRouter.get("/{id}", (Request req, Response res, Next next) -> {
+			System.out.println("get {id} - "+req.getRequestURI());
+			next.apply();
+		});
+		subRouter.get("/{id}", (Request req, Response res) -> {
+			res.json(user);
+		});
+		// regular expression path, path should start with ^
+		subRouter.get("^/candy/(\\d+)$", (Request req, Response res) -> {
+			res.json(req.getPathParams());
+		});
 		subRouter.get("/{id}/{property}", this::userProperty);
 	}
 

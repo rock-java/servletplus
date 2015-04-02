@@ -41,11 +41,6 @@ public class ParamPath {
 		this.pathNames = names.toArray(new String[0]);
 	}
 
-	public static void main(String[] args) {
-		ParamPath paramPath = new ParamPath("^/name/(?<name>\\w+)/(\\d+)$");
-		System.out.println(paramPath.matchPathReg("/name/p1/123"));
-	}
-
 	/**
 	 * convert path to reg eg1. /user/{id} -> ^/user/(?<id>[^/]+) eg1. /user/{id}/name -> ^/user/(?<id>[^/]+)/name
 	 * 
