@@ -31,10 +31,6 @@ public class BasicSubRouter extends SubRouter {
 		super(servlet);
 	}
 
-	public boolean isParamPath(String path) {
-		return -1 != path.indexOf('{') && -1 != path.indexOf('}');
-	}
-
 	public void route(Request req, Response res, int i) throws IOException, ServletException {
 		if (i >= paramFilters.size()) {
 			if (handle(req, res)) {
@@ -92,15 +88,20 @@ public class BasicSubRouter extends SubRouter {
 
 	@Override
 	public void verb(String method, String path, Filter filter) {
-		paramFilters.add(new ParamFilter(method.toUpperCase(), path, filter));
+		paramFilters.add(new ParamFilter(null==method?null:method.toUpperCase(), path, filter));
+	}
+
+	public boolean isParamPath(String path) {
+		return 0==path.indexOf('^') || -1 != path.indexOf('{') && -1 != path.indexOf('}');
 	}
 
 	@Override
 	public void verb(String method, String path, Handler handler) {
+		method = (null==method?null:method.toUpperCase());
 		if (isParamPath(path)) {
-			paramRouters.add(new ParamRouter(method.toUpperCase(), path, handler));
+			paramRouters.add(new ParamRouter(method, path, handler));
 		} else {
-			routers.put(routerKey(method.toUpperCase(), path), handler);
+			routers.put(routerKey(method, path), handler);
 		}
 	}
 

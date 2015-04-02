@@ -6,5 +6,5 @@ import javax.servlet.ServletException;
 
 @FunctionalInterface
 public interface Next {
-	void next() throws IOException, ServletException;
+	void apply() throws IOException, ServletException;
 }

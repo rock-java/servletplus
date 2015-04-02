@@ -95,6 +95,12 @@ public abstract class SubRouter {
 	public void trace(String path, Filter filter) {
 		verb("TRACE", path, filter);
 	}
+	public void use(String path, Filter filter) {
+		verb(null, path, filter);
+	}
+	public void use(Filter filter) {
+		verb("TRACE", "^.*$", filter);
+	}
 
 	public abstract void verb(String method, String path, Filter filter);
 

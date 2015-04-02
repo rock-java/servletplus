@@ -8,13 +8,42 @@ import java.util.regex.Pattern;
 
 public class ParamPath {
 
-	private String namedPath;
+	private String path;
 	private Pattern pathPattern;
 	private String[] pathNames;
 
-	public ParamPath(String namedPath) {
-		this.namedPath = namedPath;
-		pathToRegStr();
+	public ParamPath(String path) {
+		this.path = path;
+		if (0 == path.indexOf('^')) {
+			parseRegPath();
+		} else {
+			parseParamPath();
+		}
+	}
+
+	private void parseRegPath() {
+		Pattern pattern = Pattern.compile("(?<!\\\\)\\((?!\\?)");
+		Matcher matcher = pattern.matcher(path);
+		int i = 1;
+		StringBuffer sb = new StringBuffer();
+		while (matcher.find()) {
+			matcher.appendReplacement(sb, "(?<PARAM" + i + ">");
+			i++;
+		}
+		matcher.appendTail(sb);
+		pathPattern = Pattern.compile(sb.toString());
+		Pattern groupNamePattern = Pattern.compile("\\?\\<([^\\>]*)\\>");
+		Matcher groupNameMatcher = groupNamePattern.matcher(sb.toString());
+		LinkedList<String> names = new LinkedList<String>();
+		while (groupNameMatcher.find()) {
+			names.add(groupNameMatcher.group(1));
+		}
+		this.pathNames = names.toArray(new String[0]);
+	}
+
+	public static void main(String[] args) {
+		ParamPath paramPath = new ParamPath("^/name/(?<name>\\w+)/(\\d+)$");
+		System.out.println(paramPath.matchPathReg("/name/p1/123"));
 	}
 
 	/**
@@ -22,8 +51,8 @@ public class ParamPath {
 	 * 
 	 * @return
 	 */
-	private void pathToRegStr() {
-		Matcher matcher = Pattern.compile("\\{([^\\{]+)\\}").matcher(namedPath);
+	private void parseParamPath() {
+		Matcher matcher = Pattern.compile("\\{([^\\{]+)\\}").matcher(path);
 		StringBuffer sb = new StringBuffer();
 		sb.append('^');
 		LinkedList<String> names = new LinkedList<String>();
