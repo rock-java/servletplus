@@ -5,7 +5,7 @@ Enhance servlet 3+.
 #comming soon!
 
 ## Require:
-** java 8+,servlet 3.0+ **
+**Java 8+,Servlet 3.0+**
 
 ## Examples:
 ```java
