@@ -4,7 +4,10 @@ Enhance servlet 3+.
 
 #comming soon!
 
-## Examples
+## Require:
+** java 8+,servlet 3.0+ **
+
+## Examples:
 ```java
 import java.io.IOException;
 import java.util.HashMap;
@@ -60,3 +63,11 @@ public class UserServlet extends Servlet {
 
 }
 ```
+
+## Features:
+* Easy to use.
+* Powerful.
+* Flexible.
+
+## License
+(MIT)[https://github.com/rock-java/servletplus/blob/master/LICENSE]
