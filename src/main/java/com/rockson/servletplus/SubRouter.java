@@ -33,7 +33,8 @@ public abstract class SubRouter {
 		if (null == base) {
 			return null;
 		} else {
-			return req.getRequestURI().substring(contentPathLen + base.length());
+			String subPath = req.getRequestURI().substring(contentPathLen + base.length());
+			return 0 == subPath.length() ? "/":ServletUtils.trimPath(subPath);
 		}
 	}
 	

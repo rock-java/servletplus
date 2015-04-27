@@ -13,13 +13,15 @@ public class ParamPath {
 	private String[] pathNames;
 
 	public ParamPath(String path) {
-		this.path = path;
+		this.path = ServletUtils.trimPath(path);
 		if (0 == path.indexOf('^')) {
 			parseRegPath();
 		} else {
 			parseParamPath();
 		}
 	}
+	
+
 
 	private void parseRegPath() {
 		Pattern pattern = Pattern.compile("(?<!\\\\)\\((?!\\?)");
@@ -62,7 +64,7 @@ public class ParamPath {
 	}
 
 	public Map<String, String> matchPathReg(String path) {
-		Matcher matcher = pathPattern.matcher(path);
+		Matcher matcher = pathPattern.matcher(ServletUtils.trimPath(path));
 		Map<String, String> map = new HashMap<String, String>();
 		boolean matches = false;
 		while (matcher.find()) {
