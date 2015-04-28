@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class Servlet extends HttpServlet{
 	private static final long serialVersionUID = 6470041805758397687L;
-	protected SubRouter subRouter;
+	protected Router router;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -71,8 +71,8 @@ public class Servlet extends HttpServlet{
 	
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		if(null!=subRouter){
-			if(subRouter.route(new Request(req,this), new Response(res,this))){
+		if(null!=router){
+			if(router.route(new Request(req,this), new Response(res,this))){
 				return;
 			}
 		}

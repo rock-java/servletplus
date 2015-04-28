@@ -7,11 +7,11 @@ import java.util.Map;
 
 import javax.servlet.ServletException;
 
-public class BasicSubRouter extends SubRouter {
+public class BasicRouter extends Router {
 
 	HashMap<String, Handler> routers = new HashMap<String, Handler>();
-	LinkedList<ParamRouter> paramRouters = new LinkedList<BasicSubRouter.ParamRouter>();
-	LinkedList<ParamFilter> paramFilters = new LinkedList<BasicSubRouter.ParamFilter>();
+	LinkedList<ParamRouter> paramRouters = new LinkedList<BasicRouter.ParamRouter>();
+	LinkedList<ParamFilter> paramFilters = new LinkedList<BasicRouter.ParamFilter>();
 	private static final String __REQUEST_IS_END__ = "__REQUEST_IS_END__";
 
 	protected void endRequest(Request req) {
@@ -27,7 +27,7 @@ public class BasicSubRouter extends SubRouter {
 		return method + "#" + subPath;
 	}
 
-	public BasicSubRouter(Servlet servlet) {
+	public BasicRouter(Servlet servlet) {
 		super(servlet);
 	}
 

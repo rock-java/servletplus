@@ -6,10 +6,10 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 
-public abstract class SubRouter {
+public abstract class Router {
 	protected Servlet servlet;
 
-	public SubRouter(Servlet servlet) {
+	public Router(Servlet servlet) {
 		this.servlet = servlet;
 	}
 
