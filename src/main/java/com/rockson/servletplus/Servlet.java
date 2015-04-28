@@ -80,7 +80,8 @@ public class Servlet extends HttpServlet{
 	}
 	
 	protected void verb(String method , Request req , Response res) throws ServletException, IOException {
-		super.service(req, res);
+//		super.service(req, res);
+		getServletContext().getNamedDispatcher("default").forward(req, res);
 	}
 
 }
