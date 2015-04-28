@@ -44,7 +44,6 @@ public class Response extends HttpServletResponseWrapper {
 
 	public void sendFile(String str) throws IOException {
 		String path = this.servlet.getServletContext().getRealPath(str);
-		System.out.println(path);
 		File file = new File(path);
 		addHeader("Content-Length", "" + file.length());
 		addHeader("Content-Type", Files.probeContentType(file.toPath()));
