@@ -18,7 +18,7 @@ import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 
-import com.rockson.servletplus.BasicSubRouter;
+import com.rockson.servletplus.BasicRouter;
 import com.rockson.servletplus.Next;
 import com.rockson.servletplus.Servlet;
 import com.rockson.servletplus.Request;
@@ -27,21 +27,24 @@ import com.rockson.servletplus.Response;
 @WebServlet("/user/*")
 public class UserServlet extends Servlet {
 	public UserServlet() {
-		subRouter = new BasicSubRouter(this);
+		router = new BasicRouter(this);
 		// regular expression path, path should start with ^
-		subRouter.use("^/candy.*$", (Request req, Response res, Next next) -> {
+		subRouter.use("^/candy.*$", (req, res, next) -> {
 			System.out.println("use candy - "+req.getRequestURI());
 			next.apply();
 		});
-		subRouter.get("/{id}", (Request req, Response res, Next next) -> {
+		router.get("/{id}", (req, res, next) -> {
 			System.out.println("get {id} - "+req.getRequestURI());
 			next.apply();
 		});
-		subRouter.get("/{id}", (Request req, Response res) -> {
+		router.get("/{id}", (req, res) -> {
 			res.json(user);
 		});
+		router.get("/{id}/info", (req, res) -> {
+			res.sendFile("/info.html"); //info.html should in webapp dir.
+		});
 		//anonymous group and named group
-		subRouter.get("^/candy/(\\d+)/(?<g1>\\w+)$", (Request req, Response res) -> {
+		router.get("^/candy/(\\d+)/(?<g1>\\w+)$", (req, res) -> {
 			res.json(req.getPathParams());
 		});
 		subRouter.get("/{id}/{property}", this::userProperty);
