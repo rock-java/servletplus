@@ -29,7 +29,7 @@ public class UserServlet extends Servlet {
 	public UserServlet() {
 		router = new BasicRouter(this);
 		// regular expression path, path should start with ^
-		subRouter.use("^/candy.*$", (req, res, next) -> {
+		router.use("^/candy.*$", (req, res, next) -> {
 			System.out.println("use candy - "+req.getRequestURI());
 			next.apply();
 		});
@@ -47,7 +47,7 @@ public class UserServlet extends Servlet {
 		router.get("^/candy/(\\d+)/(?<g1>\\w+)$", (req, res) -> {
 			res.json(req.getPathParams());
 		});
-		subRouter.get("/{id}/{property}", this::userProperty);
+		router.get("/{id}/{property}", this::userProperty);
 	}
 
 	protected void userProperty(Request req, Response res) throws ServletException, IOException {
