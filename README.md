@@ -3,7 +3,27 @@ Enhance servlet 3+.
 
 
 #Installation
+```xml
+<dependencies>
+	<dependency>
+		<groupId>com.rockson</groupId>
+		<artifactId>servletplus</artifactId>
+		<version>0.0.1-snapshot</version>
+	</dependency>
+</dependencies>
 
+<repositories>
+	<repository>
+		<id>servletplus-mvn-repo</id>
+		<url>https://raw.github.com/rock-java/mvn-repo/master</url>
+		<snapshots>
+			<enabled>true</enabled>
+			<updatePolicy>always</updatePolicy>
+		</snapshots>
+	</repository>
+</repositories>
+
+```
 
 
 ## Require:
