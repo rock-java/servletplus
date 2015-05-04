@@ -29,7 +29,7 @@ public class UserServlet extends Servlet {
 	public UserServlet() {
 		router = new BasicRouter(this);
 		// regular expression path, path should start with ^
-		subRouter.use("^/candy.*$", (req, res, next) -> {
+		router.all("^/candy.*$", (req, res, next) -> {
 			System.out.println("use candy - "+req.getRequestURI());
 			next.apply();
 		});
