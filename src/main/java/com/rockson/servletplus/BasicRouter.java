@@ -88,6 +88,9 @@ public class BasicRouter extends Router {
 
 	@Override
 	public void verb(String method, String path, Filter filter) {
+		if(!path.startsWith("^") && !path.endsWith("$")) {
+			path+=".*";
+		}
 		paramFilters.add(new ParamFilter(null==method?null:method.toUpperCase(), path, filter));
 	}
 

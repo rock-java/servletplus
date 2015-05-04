@@ -66,6 +66,9 @@ public abstract class Router {
 	public void trace(String path, Handler handler) {
 		verb("TRACE", path, handler);
 	}
+	public void all(String path, Handler handler) {
+		verb(null, path, handler);
+	}
 
 	public abstract void verb(String method, String path, Handler handler);
 	
@@ -96,11 +99,11 @@ public abstract class Router {
 	public void trace(String path, Filter filter) {
 		verb("TRACE", path, filter);
 	}
-	public void use(String path, Filter filter) {
+	public void all(String path, Filter filter) {
 		verb(null, path, filter);
 	}
-	public void use(Filter filter) {
-		verb("TRACE", "^.*$", filter);
+	public void all(Filter filter) {
+		verb(null, "^.*$", filter);
 	}
 
 	public abstract void verb(String method, String path, Filter filter);
