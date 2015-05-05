@@ -15,10 +15,17 @@ public abstract class Router {
 
 	public String getBasePath() {
 		WebServlet webServlet = this.servlet.getClass().getAnnotation(WebServlet.class);
-		if (webServlet.value().length <= 0) {
+		String path = null;
+		
+		if (webServlet.value().length > 0 ) {
+			path = webServlet.value()[0];
+		}
+		if(webServlet.urlPatterns().length>0){
+			path = webServlet.urlPatterns()[0];
+		}
+		if(null == path) {
 			return null;
 		}
-		String path = webServlet.value()[0];
 		if (!path.endsWith("/*")) {
 			return null;
 		} else {
