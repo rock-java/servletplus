@@ -13,7 +13,7 @@ public class Servlet extends HttpServlet{
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		get(new Request(req,this), new Response(res,this));
+		get(new Request(req), new Response(res , this.getServletContext()));
 	}
 	
 	protected void get(Request req , Response res) throws ServletException, IOException {
@@ -22,7 +22,7 @@ public class Servlet extends HttpServlet{
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		post(new Request(req,this), new Response(res,this));
+		post(new Request(req), new Response(res ,this.getServletContext()));
 	}
 	
 	protected void post(Request req , Response res) throws ServletException, IOException {
@@ -30,7 +30,7 @@ public class Servlet extends HttpServlet{
 	}
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		put(new Request(req,this), new Response(res,this));
+		put(new Request(req), new Response(res,this.getServletContext()));
 	}
 	
 	protected void put(Request req , Response res) throws ServletException, IOException {
@@ -38,7 +38,7 @@ public class Servlet extends HttpServlet{
 	}
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		delete(new Request(req,this), new Response(res,this));
+		delete(new Request(req), new Response(res,this.getServletContext()));
 	}
 	
 	protected void delete(Request req , Response res) throws ServletException, IOException {
@@ -46,7 +46,7 @@ public class Servlet extends HttpServlet{
 	}
 	@Override
 	protected void doHead(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		head(new Request(req,this), new Response(res,this));
+		head(new Request(req), new Response(res,this.getServletContext()));
 	}
 	
 	protected void head(Request req , Response res) throws ServletException, IOException {
@@ -54,7 +54,7 @@ public class Servlet extends HttpServlet{
 	}
 	@Override
 	protected void doOptions(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		get(new Request(req,this), new Response(res,this));
+		get(new Request(req), new Response(res,this.getServletContext()));
 	}
 	
 	protected void options(Request req , Response res) throws ServletException, IOException {
@@ -62,7 +62,7 @@ public class Servlet extends HttpServlet{
 	}
 	@Override
 	protected void doTrace(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		trace(new Request(req,this), new Response(res,this));
+		trace(new Request(req), new Response(res,this.getServletContext()));
 	}
 	
 	protected void trace(Request req , Response res) throws ServletException, IOException {
@@ -72,11 +72,11 @@ public class Servlet extends HttpServlet{
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		if(null!=router){
-			if(router.route(new Request(req,this), new Response(res,this))){
+			if(router.route(new Request(req), new Response(res,this.getServletContext()))){
 				return;
 			}
 		}
-		verb(req.getMethod(), new Request(req,this), new Response(res,this));
+		verb(req.getMethod(), new Request(req), new Response(res,this.getServletContext()));
 	}
 	
 	protected void verb(String method , Request req , Response res) throws ServletException, IOException {

@@ -27,7 +27,7 @@ public abstract class Router {
 			return null;
 		}
 		if (!path.endsWith("/*")) {
-			return null;
+			return "";
 		} else {
 			return path.substring(0, path.length() - 2);
 		}

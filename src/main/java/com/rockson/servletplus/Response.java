@@ -2,25 +2,23 @@ package com.rockson.servletplus;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import javax.servlet.http.HttpServlet;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
 import com.alibaba.fastjson.JSON;
 
 public class Response extends HttpServletResponseWrapper {
-	protected HttpServlet servlet;
-	public Response(HttpServletResponse response , HttpServlet servlet) {
+	protected ServletContext servletContext;
+	public Response(HttpServletResponse response,ServletContext servletContext) {
 		super(response);
-		this.servlet = servlet;
+		this.servletContext = servletContext;
 	}
 
 	public void json(Object object) throws IOException {
@@ -43,7 +41,7 @@ public class Response extends HttpServletResponseWrapper {
 	}
 
 	public void sendFile(String str) throws IOException {
-		String path = this.servlet.getServletContext().getRealPath(str);
+		String path = servletContext.getRealPath(str);
 		File file = new File(path);
 		addHeader("Content-Length", "" + file.length());
 		addHeader("Content-Type", Files.probeContentType(file.toPath()));

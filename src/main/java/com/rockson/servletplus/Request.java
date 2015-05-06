@@ -11,10 +11,9 @@ public class Request extends HttpServletRequestWrapper {
 	private static final Map<String, String> errors = new LinkedHashMap<String, String>();
 	protected Map<String, String> pathParams;
 	
-	protected HttpServlet servlet;
-	public Request(HttpServletRequest request,HttpServlet servlet) {
+//	protected HttpServlet servlet;
+	public Request(HttpServletRequest request) {
 		super(request);
-		this.servlet = servlet;
 	}
 
 	public boolean isXhr() {
