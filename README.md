@@ -47,7 +47,6 @@ import com.rockson.servletplus.Response;
 @WebServlet("/user/*")
 public class UserServlet extends Servlet {
 	public UserServlet() {
-		router = new BasicRouter(this);
 		// regular expression path, path should start with ^
 		router.all("^/candy.*$", (req, res, next) -> {
 			System.out.println("use candy - "+req.getRequestURI());
