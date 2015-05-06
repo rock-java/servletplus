@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class Servlet extends HttpServlet{
 	private static final long serialVersionUID = 6470041805758397687L;
-	protected Router router;
+	protected Router router = new BasicRouter(this);
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
