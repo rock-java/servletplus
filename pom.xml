@@ -43,6 +43,11 @@
 			<artifactId>fastjson</artifactId>
 			<version>1.2.4</version>
 		</dependency>
+		<dependency>
+			<groupId>com.rockson</groupId>
+			<artifactId>validator</artifactId>
+			<version>0.0.1</version>
+		</dependency>
 	</dependencies>
 	<distributionManagement>
 		<repository>
@@ -65,15 +70,16 @@
 				<artifactId>site-maven-plugin</artifactId>
 				<version>0.11</version>
 				<configuration>
-					<message>Maven artifacts for ${project.version}</message>  <!-- git commit message -->
-					<noJekyll>true</noJekyll>                                  <!-- disable webpage processing -->
-					<outputDirectory>${project.build.directory}/${project.name}</outputDirectory> <!-- matches distribution management repository url above -->
-					<branch>refs/heads/master</branch>                       <!-- remote branch name -->
+					<merge>true</merge>
+					<noJekyll>false</noJekyll>
+					<message>Maven artifacts for ${project.version}</message>	<!-- git commit message -->
+					<outputDirectory>${project.build.directory}/${project.name}</outputDirectory>	<!-- matches distribution management repository url above -->
+					<branch>refs/heads/master</branch>							<!-- remote branch name -->
 					<includes>
 						<include>**/*</include>
 					</includes>
-					<repositoryName>mvn-repo</repositoryName>      <!-- github repo name -->
-					<repositoryOwner>rock-java</repositoryOwner>    <!-- github username -->
+					<repositoryName>mvn-repo</repositoryName>					<!-- github repo name -->
+					<repositoryOwner>rock-java</repositoryOwner>				<!-- github username -->
 				</configuration>
 				<executions>
 					<!-- run site-maven-plugin's 'site' target as part of the build's normal 

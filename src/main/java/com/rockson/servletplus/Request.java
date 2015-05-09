@@ -3,12 +3,11 @@ package com.rockson.servletplus;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
 public class Request extends HttpServletRequestWrapper {
-	private static final Map<String, String> errors = new LinkedHashMap<String, String>();
+	public final Map<String, String> errors = new LinkedHashMap<String, String>();
 	protected Map<String, String> pathParams;
 	
 //	protected HttpServlet servlet;
@@ -21,11 +20,11 @@ public class Request extends HttpServletRequestWrapper {
 	}
 
 	public ParamValidator check(String name) {
-		return new ParamValidator(name, getParameter(name), errors);
+		return new ParamValidator(name, getParameter(name) ,getParameterMap().containsKey(name),errors);
 	}
 
 	public boolean hasError() {
-		return errors.isEmpty();
+		return !errors.isEmpty();
 	}
 
 	public String getPathParam(String name) {
@@ -63,9 +62,6 @@ public class Request extends HttpServletRequestWrapper {
 	/**
 	 * this property contains an array of IP addresses specified in the 鈥淴-Forwarded-For鈥� request header. Otherwise, it
 	 * contains an empty array.
-	 * 
-	 * For example, if 鈥淴-Forwarded-For鈥� is 鈥渃lient, proxy1, proxy2鈥�, req.ips would be ["client", "proxy1", "proxy2"],
-	 * where 鈥減roxy2鈥� is the furthest downstream.
 	 * 
 	 * @return ips
 	 */

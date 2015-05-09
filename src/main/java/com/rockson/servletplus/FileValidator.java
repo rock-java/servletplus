@@ -1,5 +1,11 @@
 package com.rockson.servletplus;
 
-public class FileValidator extends Validator  {
+import java.util.Map;
+
+public class FileValidator extends FieldValidator  {
+
+	public FileValidator(Map<String, String> errors, String name, boolean exists) {
+		super(errors, name, exists);
+	}
 
 }
