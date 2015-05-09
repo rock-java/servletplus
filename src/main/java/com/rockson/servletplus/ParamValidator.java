@@ -30,7 +30,7 @@ public class ParamValidator extends FieldValidator {
 	}
 
 	public ParamValidator notEmpty(String... tip) {
-		if (this.goOn && null != this.value && !"".equals(this.value)) {
+		if (this.goOn && null == this.value && "".equals(this.value)) {
 			this.addError(String.format("%s can not be empty.", name), tip);
 		}
 		return this;
