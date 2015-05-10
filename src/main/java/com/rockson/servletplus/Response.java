@@ -7,8 +7,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
@@ -16,8 +22,10 @@ import com.alibaba.fastjson.JSON;
 
 public class Response extends HttpServletResponseWrapper {
 	protected ServletContext servletContext;
-	public Response(HttpServletResponse response,ServletContext servletContext) {
+	protected Request req;
+	public Response(HttpServletResponse response,Request req,ServletContext servletContext) {
 		super(response);
+		this.req = req;
 		this.servletContext = servletContext;
 	}
 
@@ -32,6 +40,10 @@ public class Response extends HttpServletResponseWrapper {
 			out.write(buff, 0, len);
 		}
 	}
+	
+	public void render(String jsp) throws IOException, ServletException {
+		req.getRequestDispatcher(jsp).forward(req, this);
+	}
 
 	public void send(String str) throws IOException {
 		if (null == str) {
@@ -39,10 +51,29 @@ public class Response extends HttpServletResponseWrapper {
 		}
 		getWriter().write(str);
 	}
+	protected String makeEtag(File file) {
+		return "W/\""+file.lastModified()+"\"";
+	}
 
 	public void sendFile(String str) throws IOException {
 		String path = servletContext.getRealPath(str);
 		File file = new File(path);
+		String etag = req.getHeader("If-None-Match");
+		if(null!= etag && makeEtag(file).equals(etag)) {
+			setStatus(304);
+			return;
+		}
+		addHeader("ETag", makeEtag(file));
+		String modifiedSince = req.getHeader("If-Modified-Since");
+		try {
+			if(null!=modifiedSince && Math.floor(TimeUtils.parseGMT(modifiedSince).getTime()/1000)>=Math.floor(file.lastModified()/1000)){
+				setStatus(304);
+				return;
+			}
+		} catch (ParseException e) {
+			//go on
+		}
+		addHeader("Last-Modified", TimeUtils.formatGMT(new Date(file.lastModified())));
 		addHeader("Content-Length", "" + file.length());
 		addHeader("Content-Type", Files.probeContentType(file.toPath()));
 		InputStream inputStream= new FileInputStream(file);

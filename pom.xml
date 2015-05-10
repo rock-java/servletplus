@@ -49,6 +49,16 @@
 			<version>0.0.1</version>
 		</dependency>
 	</dependencies>
+	<repositories>
+		<repository>
+			<id>servletplus-mvn-repo</id>
+			<url>https://raw.github.com/rock-java/mvn-repo/master</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+		</repository>
+	</repositories>
 	<distributionManagement>
 		<repository>
 			<id>internal.repo</id>

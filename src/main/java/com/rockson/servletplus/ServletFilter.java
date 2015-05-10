@@ -21,7 +21,8 @@ public abstract class ServletFilter implements Filter{
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
 			ServletException {
-		filter(new Request((HttpServletRequest) request), new Response((HttpServletResponse) response ,filterConfig.getServletContext()), chain);
+		Request req = new Request((HttpServletRequest) request);
+		filter(req, new Response((HttpServletResponse) response,req ,filterConfig.getServletContext()), chain);
 	}
 	
 	public abstract void filter(Request req ,Response res, FilterChain chain) throws IOException,	ServletException ;
