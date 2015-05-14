@@ -56,24 +56,29 @@ public class Response extends HttpServletResponseWrapper {
 	}
 
 	public void sendFile(String str) throws IOException {
+		sendFile(str, false);
+	}
+	public void sendFile(String str,boolean useCache) throws IOException {
 		String path = servletContext.getRealPath(str);
 		File file = new File(path);
-		String etag = req.getHeader("If-None-Match");
-		if(null!= etag && makeEtag(file).equals(etag)) {
-			setStatus(304);
-			return;
-		}
-		addHeader("ETag", makeEtag(file));
-		String modifiedSince = req.getHeader("If-Modified-Since");
-		try {
-			if(null!=modifiedSince && Math.floor(TimeUtils.parseGMT(modifiedSince).getTime()/1000)>=Math.floor(file.lastModified()/1000)){
+		if(useCache) {
+			String etag = req.getHeader("If-None-Match");
+			if(null!= etag && makeEtag(file).equals(etag)) {
 				setStatus(304);
 				return;
 			}
-		} catch (ParseException e) {
-			//go on
+			addHeader("ETag", makeEtag(file));
+			String modifiedSince = req.getHeader("If-Modified-Since");
+			try {
+				if(null!=modifiedSince && Math.floor(TimeUtils.parseGMT(modifiedSince).getTime()/1000)>=Math.floor(file.lastModified()/1000)){
+					setStatus(304);
+					return;
+				}
+			} catch (ParseException e) {
+				//go on
+			}
+			addHeader("Last-Modified", TimeUtils.formatGMT(new Date(file.lastModified())));
 		}
-		addHeader("Last-Modified", TimeUtils.formatGMT(new Date(file.lastModified())));
 		addHeader("Content-Length", "" + file.length());
 		addHeader("Content-Type", Files.probeContentType(file.toPath()));
 		InputStream inputStream= new FileInputStream(file);
