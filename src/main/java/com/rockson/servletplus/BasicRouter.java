@@ -57,11 +57,19 @@ public class BasicRouter extends Router {
 		route(req, res, 0);
 		return isRequestEnded(req);
 	}
+	
+	protected Handler getHandler(String method, String subPath) {
+		Handler handler = routers.get(routerKey(method, subPath));
+		if(null == handler) {
+			return routers.get(routerKey(null, subPath));
+		}
+		return handler;
+	}
 
 	public boolean handle(Request req, Response res) throws IOException, ServletException {
 		String method = req.getMethod();
 		String subPath = getSubPath(req);
-		Handler handler = routers.get(routerKey(method, subPath));
+		Handler handler = getHandler(method, subPath);
 		if (null != handler) {
 			handler.handle(req, res);
 			return true;
