@@ -8,10 +8,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -103,13 +100,18 @@ public class Response extends HttpServletResponseWrapper {
 	}
 
 	public void download(Path path, String name) throws IOException {
-		reset();
 		File file = path.toFile();
-		addHeader("Content-Disposition", "attachment; filename=" + (null == name ? file.getName() : name));
-		addHeader("Content-Length", "" + file.length());
-		addHeader("Content-Type", Files.probeContentType(path));
-		
-		Files.copy(path, getOutputStream());
+		try(FileInputStream in = new FileInputStream(file)){
+			download(in, null == name ? file.getName() : name, file.length(),  Files.probeContentType(path));
+		}
+	}
+	
+	public void download(InputStream inputStream , String fileName, long length ,String contentType) throws IOException {
+		reset();
+		addHeader("Content-Disposition", "attachment; filename=" + fileName);
+		addHeader("Content-Length", "" + length);
+		addHeader("Content-Type", contentType);
+		ServletUtils.pipe(inputStream, getOutputStream());
 	}
 	
 }
