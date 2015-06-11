@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 
 public class Response extends HttpServletResponseWrapper {
 	protected ServletContext servletContext;
@@ -27,7 +28,7 @@ public class Response extends HttpServletResponseWrapper {
 	}
 
 	public void json(Object object) throws IOException {
-		getWriter().write(JSON.toJSONString(object));
+		getWriter().write(JSON.toJSONString(object, SerializerFeature.WriteMapNullValue , SerializerFeature.BrowserCompatible));
 	}
 
 	protected void copy(InputStream in, OutputStream out, int bufferSize) throws IOException {
