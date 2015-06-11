@@ -8,7 +8,7 @@ Enhance servlet 3+.
 	<dependency>
 		<groupId>com.rockson</groupId>
 		<artifactId>servletplus</artifactId>
-		<version>0.0.4</version>
+		<version>0.0.6</version>
 	</dependency>
 </dependencies>
 
@@ -49,11 +49,9 @@ public class UserServlet extends Servlet {
 	public UserServlet() {
 		// regular expression path, path should start with ^
 		router.all("^/candy.*$", (req, res, next) -> {
-			System.out.println("use candy - "+req.getRequestURI());
 			next.apply();
 		});
 		router.get("/{id}", (req, res, next) -> {
-			System.out.println("get {id} - "+req.getRequestURI());
 			next.apply();
 		});
 		router.get("/{id}", (req, res) -> {
