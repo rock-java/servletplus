@@ -8,7 +8,7 @@ Enhance servlet 3+.
 	<dependency>
 		<groupId>com.rockson</groupId>
 		<artifactId>servletplus</artifactId>
-		<version>0.0.6</version>
+		<version>0.0.7</version>
 	</dependency>
 </dependencies>
 
