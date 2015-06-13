@@ -88,7 +88,7 @@ public class Servlet extends HttpServlet{
 	}
 	
 	protected void verb(String method , Request req , Response res) throws ServletException, IOException {
-		if(req.getPathInfo().endsWith(".jsp")) {
+		if(null!= req.getPathInfo() && req.getPathInfo().endsWith(".jsp")) {
 			getServletContext().getNamedDispatcher("jsp").forward(req, res);
 		}else{
 			getServletContext().getNamedDispatcher("default").forward(req, res);
