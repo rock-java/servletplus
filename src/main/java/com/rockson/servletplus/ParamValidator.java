@@ -155,17 +155,23 @@ public class ParamValidator extends FieldValidator {
 
 	public Integer toInt(String... tip) {
 		isInt(tip);
-		if (!hasError()) {
+		if (isTransformableValue()&&!hasError()) {
 			return Validator.toInt(value);
 		} else {
 			return null;
 		}
 	}
+	public boolean isTransformableValue(){
+		if(!exists || null == this.value || "" == this.value.trim()) {
+			return false;
+		}
+		return true;
+	}
 	public Integer toInt(int defaultValue,String... tip) {
 		if(hasError()){
 			return null;
 		}
-		if(!exists || null == this.value || "" == this.value.trim()) {
+		if(!isTransformableValue()) {
 			return defaultValue;
 		}
 		isInt(tip);
@@ -173,7 +179,7 @@ public class ParamValidator extends FieldValidator {
 	}
 	public Float toFloat(String... tip) {
 		isFloat(tip);
-		if (!hasError()) {
+		if (isTransformableValue()&&!hasError()) {
 			return Validator.toFloat(value);
 		} else {
 			return null;
@@ -183,7 +189,7 @@ public class ParamValidator extends FieldValidator {
 		if(hasError()){
 			return null;
 		}
-		if(!exists || null == this.value || "" == this.value.trim()) {
+		if(!isTransformableValue()) {
 			return defaultValue;
 		}
 		isFloat(tip);

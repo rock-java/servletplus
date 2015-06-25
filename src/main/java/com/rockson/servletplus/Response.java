@@ -28,7 +28,7 @@ public class Response extends HttpServletResponseWrapper {
 	}
 
 	public void json(Object object) throws IOException {
-		getWriter().write(JSON.toJSONString(object, SerializerFeature.WriteMapNullValue , SerializerFeature.BrowserCompatible));
+		getWriter().write(JSON.toJSONString(object, SerializerFeature.WriteMapNullValue));
 	}
 
 	protected void copy(InputStream in, OutputStream out, int bufferSize) throws IOException {
@@ -69,7 +69,7 @@ public class Response extends HttpServletResponseWrapper {
 			String modifiedSince = req.getHeader("If-Modified-Since");
 			try {
 				if(null!=modifiedSince && Math.floor(TimeUtils.parseGMT(modifiedSince).getTime()/1000)>=Math.floor(file.lastModified()/1000)){
-					setStatus(304);
+					setStatus(304);	
 					return;
 				}
 			} catch (ParseException e) {
